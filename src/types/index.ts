@@ -3,4 +3,7 @@ export type UsePlayerStateType = {
   progress: number;
   speed: number;
   isMuted: boolean;
+  videoLength: number;
+  totalWatchTime: number;
+  totalPlayButtonClick: number;
 };
