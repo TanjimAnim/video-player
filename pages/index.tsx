@@ -1,6 +1,6 @@
 //import video from "../src/assets/video.mp4";
 import useVideoPlayer from "../src/hooks/useVideoPlayer";
-import { useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 //import icons
 import {
@@ -11,7 +11,7 @@ import {
 } from "react-icons/bs";
 
 export default function Home() {
-  const videoElement = useRef(null);
+  const videoElement = useRef<HTMLVideoElement>(null);
   const {
     playerState,
     handleOnTimeUpdate,
@@ -20,7 +20,7 @@ export default function Home() {
     toggleMute,
     togglePlay,
   } = useVideoPlayer(videoElement);
-
+  console.log("elapsed time", playerState.totalWatchTime);
   return (
     <div className="container">
       <div className="video-wrapper">
