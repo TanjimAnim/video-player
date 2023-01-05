@@ -9,11 +9,15 @@ const useVideoPlayer = (videoElement: any) => {
     progress: 0,
     speed: 1,
     isMuted: false,
+    videoLength: 0,
+    totalPlayButtonClick: 0,
+    totalWatchTime: 0,
   });
   // function for togggle video play/pause
   const togglePlay = () => {
     setPlayerState({
       ...playerState,
+      totalPlayButtonClick: (playerState.totalPlayButtonClick += 1),
       isPlaying: !playerState.isPlaying,
     });
   };
@@ -24,13 +28,24 @@ const useVideoPlayer = (videoElement: any) => {
       : videoElement.current.pause();
   }, [playerState.isPlaying, videoElement]);
 
+  useEffect(() => {
+    playerState.videoLength = videoElement.current.duration;
+  }, [videoElement]);
   //to apply mute unmute
   useEffect(() => {
     playerState.isMuted
       ? (videoElement.current.muted = true)
       : (videoElement.current.muted = false);
   }, [playerState.isMuted, videoElement]);
-
+  useEffect(() => {
+    let startTime = new Date();
+    if (playerState.isPlaying) {
+      console.log("video playing");
+    } else {
+      playerState.totalWatchTime = new Date().getTime() - startTime.getTime();
+      console.log(playerState.totalWatchTime);
+    }
+  });
   const handleOnTimeUpdate = () => {
     const progress =
       (videoElement.current.currentTime / videoElement.current.duration) * 100;
